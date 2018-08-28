@@ -43049,20 +43049,21 @@ AMFLoader.prototype = {
 
 				console.log( 'AMFLoader: Loading Zip' );
 
-				try {
+				//try {
 
-					zip = new JSZip( data ); // eslint-disable-line no-undef
+				zip = new jszip(data); // eslint-disable-line no-undef
+/* 
+			} catch ( e ) {
 
-				} catch ( e ) {
+				if ( e instanceof ReferenceError ) {
 
-					if ( e instanceof ReferenceError ) {
-
-						console.log( 'AMFLoader: jszip missing and file is compressed.' );
-						return null;
-
-					}
+					console.error( 'ThreeMFLoader: jszip missing and file is compressed.' );
+					return null;
 
 				}
+
+			}
+ */
 
 				for ( file in zip.files ) {
 
