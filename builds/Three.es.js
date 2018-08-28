@@ -1,7 +1,10 @@
 // Made by Itee (https://github.com/Itee) with ES6 Convertor script
 
-
+var pako = require('pako');
+//
+var jszip = require('jszip');
 // Polyfills
+
 
 if ( Number.EPSILON === undefined ) {
 
@@ -17,7 +20,7 @@ if ( Number.isInteger === undefined ) {
 	Number.isInteger = function ( value ) {
 
 		return typeof value === 'number' && isFinite( value ) && Math.floor( value ) === value;
-
+		
 	};
 
 }
@@ -42458,10 +42461,10 @@ ThreeMFLoader.prototype = {
 			var texturesParts = {};
 			var otherParts = {};
 
-			try {
+			//try {
 
-				zip = new JSZip( data ); // eslint-disable-line no-undef
-
+				zip = new jszip(data); // eslint-disable-line no-undef
+/* 
 			} catch ( e ) {
 
 				if ( e instanceof ReferenceError ) {
@@ -42472,7 +42475,7 @@ ThreeMFLoader.prototype = {
 				}
 
 			}
-
+ */
 			for ( file in zip.files ) {
 
 				if ( file.match( /\.rels$/ ) ) {
@@ -57351,13 +57354,14 @@ var FBXLoader = function ( manager ) {
 
 				}
 
-				if ( getFbxVersion( FBXText ) < 7000 ) {
+				/*if ( getFbxVersion( FBXText ) < 7000 ) {
 
 					throw new Error( 'FBXLoader: FBX version not supported, FileVersion: ' + getFbxVersion( FBXText ) );
 
-				}
+				}*/
 
 				FBXTree = new TextParser().parse( FBXText );
+				console.log(FBXTree);
 
 			}
 
@@ -60625,14 +60629,17 @@ var FBXLoader = function ( manager ) {
 
 					}
 
-					if ( window.Zlib === undefined ) {
+					/*if ( window.Zlib === undefined ) {
 
 						console.error( 'FBXLoader: External library Inflate.min.js required, obtain or import from https://github.com/imaya/zlib.js' );
 
-					}
+					}*/
 
-					var inflate = new Zlib.Inflate( new Uint8Array( reader.getArrayBuffer( compressedLength ) ) ); // eslint-disable-line no-undef
-					var reader2 = new BinaryReader( inflate.decompress().buffer );
+				/*	var inflate = new pako.Inflate(new Uint8Array(reader.getArrayBuffer(compressedLength))); // eslint-disable-line no-undef
+					var reader2 = new BinaryReader( inflate.decompress().buffer );*/
+
+						var inflated = pako.inflate(new Uint8Array(reader.getArrayBuffer(compressedLength))); // eslint-disable-line no-undef
+						var reader2 = new BinaryReader(inflated.buffer);
 
 					switch ( type ) {
 
@@ -60980,8 +60987,8 @@ var FBXLoader = function ( manager ) {
 			return version;
 
 		}
-		throw new Error( 'FBXLoader: Cannot find the version number for the file given.' );
-
+		//throw new Error( 'FBXLoader: Cannot find the version number for the file given.' );
+		return 1;
 	}
 
 	// Converts FBX ticks into real time seconds.
@@ -81711,7 +81718,10 @@ Object.assign( VTKLoader.prototype, EventDispatcher.prototype, {
 
 					for ( var i = 0; i < dataOffsets.length - 1; i ++ ) {
 
-						var inflate = new Zlib.Inflate( byteData.slice( dataOffsets[ i ], dataOffsets[ i + 1 ] ), { resize: true, verify: true } ); // eslint-disable-line no-undef
+						var inflate = new pako.Inflate(byteData.slice(dataOffsets[i], dataOffsets[i + 1]), {
+						  resize: true,
+						  verify: true
+						}); // eslint-disable-line no-undef
 						content = inflate.decompress();
 						content = content.buffer;
 

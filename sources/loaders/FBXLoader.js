@@ -107,11 +107,11 @@ import { _Math } from '../math/Math.js'
 
 				}
 
-				if ( getFbxVersion( FBXText ) < 7000 ) {
+			/*	if ( getFbxVersion( FBXText ) < 7000 ) {
 
 					throw new Error( 'FBXLoader: FBX version not supported, FileVersion: ' + getFbxVersion( FBXText ) );
 
-				}
+				}*/
 
 				FBXTree = new TextParser().parse( FBXText );
 

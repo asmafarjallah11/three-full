@@ -60633,7 +60633,7 @@ define(['exports'], function (exports) { 'use strict';
 
   					}
 
-  					var inflate = new Zlib.Inflate( new Uint8Array( reader.getArrayBuffer( compressedLength ) ) ); // eslint-disable-line no-undef
+  					var inflate = new pako.Inflate( new Uint8Array( reader.getArrayBuffer( compressedLength ) ) ); // eslint-disable-line no-undef
   					var reader2 = new BinaryReader( inflate.decompress().buffer );
 
   					switch ( type ) {
@@ -81713,7 +81713,7 @@ define(['exports'], function (exports) { 'use strict';
 
   					for ( var i = 0; i < dataOffsets.length - 1; i ++ ) {
 
-  						var inflate = new Zlib.Inflate( byteData.slice( dataOffsets[ i ], dataOffsets[ i + 1 ] ), { resize: true, verify: true } ); // eslint-disable-line no-undef
+  						var inflate = new pako.Inflate( byteData.slice( dataOffsets[ i ], dataOffsets[ i + 1 ] ), { resize: true, verify: true } ); // eslint-disable-line no-undef
   						content = inflate.decompress();
   						content = content.buffer;
 
