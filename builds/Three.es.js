@@ -64787,7 +64787,7 @@ KMZLoader.prototype = {
 
 	parse: function ( data ) {
 
-		var zip = new JSZip( data ); // eslint-disable-line no-undef
+		var zip = new jszip( data ); // eslint-disable-line no-undef
 
 		// console.log( zip );
 
